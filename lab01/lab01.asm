@@ -25,9 +25,9 @@ main:   # Words ending with ':' are **labels**
         #   instructions after assemblying.
         #   Ignore this detail for now. We'll get back to this later
         
-        la         $t0, matric       # $t0 gets address of matric
-        lw         $s0, 0($t0)       # $s0 gets the value of matric
-        add        $v0, $zero, $s0   # set $v0 to the value of matric
+        la         $t3, matric       # $t0 gets address of matric
+        lw         $s3, 0($t3)       # $s0 gets the value of matric
+        add        $v0, $zero, $s3   # set $v0 to the value of matric
         
         add        $s1, $zero, $v0   # $s1 = (read value)
                                      # Note: this just moves the value to
