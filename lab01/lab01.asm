@@ -24,14 +24,10 @@ main:   # Words ending with ':' are **labels**
         # la is a pseudo-instruction. Notice that is gets converted to 2
         #   instructions after assemblying.
         #   Ignore this detail for now. We'll get back to this later
-        addiu      $v0, $zero, 4     # system service 4: print string
-        syscall                      #   located at address $a0
-		# This is a system call. We call the operating system
-		#   to display a string for us. Think of it as a special
-		#   subroutine.
         
-        addiu      $v0, $zero, 5     # system service 5: read integer
-        syscall                      # integer returned in $v0
+        la         $t0, matric       # $t0 gets address of matric
+        lw         $s0, 0($t0)       # $s0 gets the value of matric
+        add        $v0, $zero, $s0   # set $v0 to the value of matric
         
         add        $s1, $zero, $v0   # $s1 = (read value)
                                      # Note: this just moves the value to
@@ -73,7 +69,7 @@ exit:
         # Usually data are declared before text. Try to follow that convention 
         #     in your other programs
         #  
-matric: .word 0    # This will be used by your submitted code
+matric: .word 2454    # This will be used by your submitted code
 
 mesg1:  .asciiz "Enter matriculation number: "
         # Data can have labels too, so we can refer to them
