@@ -21,6 +21,6 @@ end
 tester.test "../lab01.asm" do
   # The expected register values at the end of execution are placed here
   expect :s0 => 0xffffffff, :s1 => 0x00ff, :s2 => 0x1001002c, :t0 => 0x10010050,
-		  '0x10010024' => 0x01, '0x10010038' => 0x00000997, '0x1001003c' => 0x10010028
+		  '0x10010024' => 0x00000997, '0x10010038' => 0x00000997, '0x1001003c' => 0x10010028
   verbose! # Optional verbosity!
 end
