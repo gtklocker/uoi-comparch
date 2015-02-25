@@ -20,7 +20,7 @@ main:   # Words ending with ':' are **labels**
         # Instruction operands are indented a few spaces, so that the
         #    instruction type is more visible.
       
-        la         $a0, mesg1        # get address of mesg1 into $a0
+        #la         $a0, mesg1        # get address of mesg1 into $a0
         # la is a pseudo-instruction. Notice that is gets converted to 2
         #   instructions after assemblying.
         #   Ignore this detail for now. We'll get back to this later
