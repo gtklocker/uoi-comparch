@@ -21,13 +21,32 @@ loop:
         ########################################################################
         #  Write your code here
         ########################################################################
+        addu       $s3, $s2,   $zero # $s3=$s2
+
+insideLoop:
+        lbu        $t1, 0($s1)	     # $t1 = s1
+        lbu        $t2, 0($s2) 	     # $t2 = s2
+        bne        $t1, $t2, exitFail
+        beq        $s1, $s3, exitSuccess
+	
+        addiu      $s1, $s1, 1       # $s1 inside
+        addiu      $s2, $s2, -1      # $s2 outside
+        j insideLoop
 
         
-exit: 
+exitSuccess: 
         addiu      $v0, $zero, 10    # system service 10 is exit
+        addiu      $a0, $zero, 0     # exit 0
         syscall                      # we are outta here.
+
+exitFail:
+        addiu      $v0, $zero, 10    # system service 10 is exit
+        addiu      $a0, $zero, 1     # exit 1
+        syscall                      # we are outta here,
         
 ###############################################################################
 
         .data
 mesg:   .asciiz "racecar"
+#mesg:   .asciiz "madamimadam"
+#mesg:   .asciiz "alitiz"
