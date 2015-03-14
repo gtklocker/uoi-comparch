@@ -22,7 +22,7 @@ main:
         #################################
 
         la   $a1, number # Address where the result should go to
-		sw   $s0, 0($a1)
+        sw   $s0, 0($a1)
 
         # end the program
         li   $v0, 10
