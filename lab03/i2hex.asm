@@ -28,10 +28,10 @@ loop:   # Main loop ----------
         # The following instructions convert the number to a char
         slti $t2, $t1,   10  # t2 is set to 1 if $t1 < 10	
         beq  $t2, $zero, over10
-        add  $t1, $t1,   '0' # ASCII for '0' is 48
+        addi $t1, $t1,   '0' # ASCII for '0' is 48
         j    save_c
 over10:
-        add  $t1, $t1, 55 # convert to ASCII for A-F
+        addi $t1, $t1, 55 # convert to ASCII for A-F
                           # ASCII code for 'A' is 65
                           # Use 55 because $t1 is over 10
 
