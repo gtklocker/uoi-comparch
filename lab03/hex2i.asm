@@ -32,11 +32,11 @@ main:
 findEnd:
         lbu  $t0, 0($a2)
         beq  $t0, $zero, foundEnd
-        addu $a2, $a2, 1
+        addi $a2, $a2, 1
         j findEnd
         
 foundEnd:
-        addu $a2, $a2, -1
+        addi $a2, $a2, -1
         
 loop:      
         lbu  $t0, 0($a2)
@@ -57,8 +57,8 @@ continue:
         
         beq  $a2, $a3, save
         
-        addiu $a2, $a2, -1
-        addiu $t3, $t3, 4
+        addi $a2, $a2, -1
+        addi $t3, $t3, 4
         j loop
     
         #################################
