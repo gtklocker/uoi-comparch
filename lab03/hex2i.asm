@@ -41,24 +41,39 @@ foundEnd:
 loop:      
         lbu  $t0, 0($a2)
         
-        slti $t2, $t0, 58
+        slti $t2, $t0, 58 # if $t2 <= '9'
         beq  $t2, $zero, letter
-        # subtract from '0'
-        addi $t0, $t0, -48
+        
+        addi $t0, $t0, -48 # subtract from '0'
         j continue
 
 letter:
-        # subtract from 'A', add 10
-        addi $t0, $t0, -55
+        addi $t0, $t0, -55 # subtract from 'A', add 10
 	
 continue:
+        ######################################
+        #B    A    D    C    A    F    E
+        #11   10   13   12   10   15   14  
+        #1011 1010 1101 1100 1010 1111 1110
+        #                              1110
+        #                         1111 0000
+        #                    1010 0000 0000
+        #               1100 0000 0000 0000
+        #          1101 0000 0000 0000 0000
+        #     1010 0000 0000 0000 0000 0000
+        #1011 0000 0000 0000 0000 0000 0000 +
+        #—————————————————————————————————————
+        #1011 1010 1101 1100 1010 1111 1110
+        #B    A    D    C    A    F    E
+        ######################################
+        
         sllv $t0, $t0, $t3
         addu $s0, $s0, $t0
         
         beq  $a2, $a3, save
         
-        addi $a2, $a2, -1
-        addi $t3, $t3, 4
+        addi $a2, $a2, -1 # next digit
+        addi $t3, $t3, 4 # next digit should move << 4 digits more
         j loop
     
         #################################
