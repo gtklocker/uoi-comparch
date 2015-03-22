@@ -29,9 +29,44 @@ main:
         li   $v0, 10
         syscall
 
-		######################################
+        ######################################
         # Write your code here for mod and gcd
 mod:
+        slt  $t0, $a1, $a0
+        beq  $t0, 1, modLoop
+        beq  $a0, $a1, modLoop
+        j    modReturn
+modLoop:
+        sub  $a0, $a0, $a1
+        j    mod
+modReturn:
+        add  $v0, $zero, $a0
+        jr   $ra
 
 gcd:
+        slt  $t0, $a0, $a1
+        beq  $t0, 1, gcdSwap
+        beq  $a1, 0, gcdReturn
         
+        addi $sp, $sp, -12
+        sw   $a0, 0($sp)
+        sw   $a1, 4($sp)
+        sw   $ra, 8($sp)
+        jal  mod
+        
+        lw   $a0, 0($sp)
+        lw   $a1, 4($sp)
+        lw   $ra, 8($sp)
+        addi $sp, $sp, 12
+        
+        add  $a0, $zero, $a1
+        add  $a1, $zero, $v0
+        j    gcd
+gcdReturn:
+        add  $v0, $zero, $a0
+        jr   $ra
+gcdSwap:
+        add  $t1, $zero, $a0
+        add  $a0, $zero, $a1
+        add  $a1, $zero, $t1
+        j    gcd
