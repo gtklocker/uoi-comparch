@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for file in *.bdf
+do
+    quartus_map --read_settings_files=on --write_settings_files=off --convert_bdf_to_verilog=$file
+done
