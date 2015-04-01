@@ -1,0 +1,92 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.2"))
+(symbol
+	(rect 64 64 240 240)
+	(text "maindec" (rect 5 0 46 10)(font "Arial" ))
+	(text "inst" (rect 8 160 25 170)(font "Arial" ))
+	(port
+		(pt 0 88)
+		(input)
+		(text "op[5..0]" (rect 0 0 37 10)(font "Arial" ))
+		(text "op[5..0]" (rect 21 83 58 93)(font "Arial" ))
+		(line (pt 0 88)(pt 16 88)(line_width 3))
+	)
+	(port
+		(pt 176 32)
+		(output)
+		(text "memtoreg" (rect 0 0 50 10)(font "Arial" ))
+		(text "memtoreg" (rect 113 27 155 37)(font "Arial" ))
+		(line (pt 176 32)(pt 160 32))
+	)
+	(port
+		(pt 176 48)
+		(output)
+		(text "memwrite" (rect 0 0 47 10)(font "Arial" ))
+		(text "memwrite" (rect 116 43 155 53)(font "Arial" ))
+		(line (pt 176 48)(pt 160 48))
+	)
+	(port
+		(pt 176 64)
+		(output)
+		(text "branch" (rect 0 0 33 10)(font "Arial" ))
+		(text "branch" (rect 128 59 155 69)(font "Arial" ))
+		(line (pt 176 64)(pt 160 64))
+	)
+	(port
+		(pt 176 80)
+		(output)
+		(text "alusrc" (rect 0 0 29 10)(font "Arial" ))
+		(text "alusrc" (rect 131 75 155 85)(font "Arial" ))
+		(line (pt 176 80)(pt 160 80))
+	)
+	(port
+		(pt 176 96)
+		(output)
+		(text "regdst" (rect 0 0 30 10)(font "Arial" ))
+		(text "regdst" (rect 130 91 155 101)(font "Arial" ))
+		(line (pt 176 96)(pt 160 96))
+	)
+	(port
+		(pt 176 144)
+		(output)
+		(text "regwrite" (rect 0 0 37 10)(font "Arial" ))
+		(text "regwrite" (rect 124 139 155 149)(font "Arial" ))
+		(line (pt 176 144)(pt 160 144))
+	)
+	(port
+		(pt 176 128)
+		(output)
+		(text "jump" (rect 0 0 23 10)(font "Arial" ))
+		(text "jump" (rect 136 123 155 133)(font "Arial" ))
+		(line (pt 176 128)(pt 160 128))
+	)
+	(port
+		(pt 176 112)
+		(output)
+		(text "aluop[1..0]" (rect 0 0 51 10)(font "Arial" ))
+		(text "aluop[1..0]" (rect 112 107 155 117)(font "Arial" ))
+		(line (pt 176 112)(pt 160 112)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 160 160))
+	)
+)
