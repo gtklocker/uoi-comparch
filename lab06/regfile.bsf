@@ -1,0 +1,85 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.2"))
+(symbol
+	(rect 64 64 256 312)
+	(text "regfile" (rect 72 96 102 106)(font "Arial" ))
+	(text "inst" (rect 144 216 161 226)(font "Arial" ))
+	(port
+		(pt 88 248)
+		(input)
+		(text "clk" (rect 0 104 15 114)(font "Arial" ))
+		(text "clk" (rect 80 207 95 217)(font "Arial" ))
+		(line (pt 88 248)(pt 88 232))
+	)
+	(port
+		(pt 88 0)
+		(input)
+		(text "we3" (rect 0 0 18 10)(font "Arial" ))
+		(text "we3" (rect 80 25 98 35)(font "Arial" ))
+		(line (pt 88 0)(pt 88 16))
+	)
+	(port
+		(pt 0 32)
+		(input)
+		(text "ra1[4..0]" (rect 0 0 41 10)(font "Arial" ))
+		(text "ra1[4..0]" (rect 21 27 62 37)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "ra2[4..0]" (rect 0 0 41 10)(font "Arial" ))
+		(text "ra2[4..0]" (rect 21 59 62 69)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 3))
+	)
+	(port
+		(pt 0 144)
+		(input)
+		(text "wa3[4..0]" (rect 0 0 44 10)(font "Arial" ))
+		(text "wa3[4..0]" (rect 21 139 65 149)(font "Arial" ))
+		(line (pt 0 144)(pt 16 144)(line_width 3))
+	)
+	(port
+		(pt 0 200)
+		(input)
+		(text "wd3[31..0]" (rect 0 0 50 10)(font "Arial" ))
+		(text "wd3[31..0]" (rect 21 195 71 205)(font "Arial" ))
+		(line (pt 0 200)(pt 16 200)(line_width 3))
+	)
+	(port
+		(pt 192 56)
+		(output)
+		(text "rd1[31..0]" (rect 16 0 63 10)(font "Arial" ))
+		(text "rd1[31..0]" (rect 132 51 179 61)(font "Arial" ))
+		(line (pt 192 56)(pt 176 56)(line_width 3))
+	)
+	(port
+		(pt 192 144)
+		(output)
+		(text "rd2[31..0]" (rect 16 0 63 10)(font "Arial" ))
+		(text "rd2[31..0]" (rect 132 139 179 149)(font "Arial" ))
+		(line (pt 192 144)(pt 176 144)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 176 232))
+	)
+)
