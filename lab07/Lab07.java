@@ -8,19 +8,19 @@ import java.io.FileReader;
 import java.io.IOException;
 
 class Cache {
-	private int  blockSize;
-	private int  associativity;
-	private long capacity;
+    private int  blockSize;
+    private int  associativity;
+    private long capacity;
 
-	// -----------------------------------------------------------
-	// ADD ANY OTHER VARIABLES NEEDED FOR CACHE CONFIGURATION HERE
-	// E.G.:
-	// private long numSets;
-	// -----------------------------------------------------------
+    // -----------------------------------------------------------
+    // ADD ANY OTHER VARIABLES NEEDED FOR CACHE CONFIGURATION HERE
+    // E.G.:
+    // private long numSets;
+    // -----------------------------------------------------------
 
 
-	// Constructor
-	public Cache(String[] args) {
+    // Constructor
+    public Cache(String[] args) {
 
         if (args.length < 3) {
             System.err.println("ERROR: Configuration info not provided. Exiting.");
@@ -44,34 +44,34 @@ class Cache {
             System.err.println("Argument" + args[2] + " must be an integer.");
             System.exit(1);
         }
-	    // -----------------------------------------------------------
-		// Complete code here for other cache parameters derived from the above.
-	    // -----------------------------------------------------------
-	}
+        // -----------------------------------------------------------
+        // Complete code here for other cache parameters derived from the above.
+        // -----------------------------------------------------------
+    }
 
     public long getTag(long addr) {
-	    // -----------------------------------------------------------
-		// Write code here
-		// Replace return const below with the computed tag
-	    // -----------------------------------------------------------
-		return 0xabcd;
-	}
+        // -----------------------------------------------------------
+        // Write code here
+        // Replace return const below with the computed tag
+        // -----------------------------------------------------------
+        return 0xabcd;
+    }
 
     public long getIndex(long addr) {
-	    // -----------------------------------------------------------
-		// Write code here
-		// Replace return const below with the computed index
-	    // -----------------------------------------------------------
-		return 0x10;
-	}
+        // -----------------------------------------------------------
+        // Write code here
+        // Replace return const below with the computed index
+        // -----------------------------------------------------------
+        return 0x10;
+    }
 
     public long getBoff(long addr) {
-	    // -----------------------------------------------------------
-		// Write code here
-		// Replace return const below with the computed block offset
-	    // -----------------------------------------------------------
-		return 0x4;
-	}
+        // -----------------------------------------------------------
+        // Write code here
+        // Replace return const below with the computed block offset
+        // -----------------------------------------------------------
+        return 0x4;
+    }
 
 }
 
@@ -80,23 +80,23 @@ class Lab07 {
     public static void main(String[] args) throws IOException {
         Cache cache = new Cache(args);
 
-	    String fileName = args[3];
-	    File f = new File(fileName);
-        if (!f.exists() || f.isDirectory()) { 
+        String fileName = args[3];
+        File f = new File(fileName);
+        if (!f.exists() || f.isDirectory()) {
             System.err.println("Argument" + args[3] + " must be a file.");
             System.exit(1);
         }
 
-	    try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
             for(String line; (line = br.readLine()) != null; ) {
                 // process the line.
-		        long addr = Long.parseLong(line, 16);
+                long addr = Long.parseLong(line, 16);
 
-			    long tag = cache.getTag(addr);
-			    long idx = cache.getIndex(addr);
-			    long boff = cache.getBoff(addr);
-			    System.out.printf("Address: %x => Tag: %x, Index: %x, Boff: %x\n", addr, tag, idx, boff);
+                long tag = cache.getTag(addr);
+                long idx = cache.getIndex(addr);
+                long boff = cache.getBoff(addr);
+                System.out.printf("Address: %x => Tag: %x, Index: %x, Boff: %x\n", addr, tag, idx, boff);
             }
         }
-	}
+    }
 }
