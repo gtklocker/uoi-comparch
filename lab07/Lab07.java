@@ -18,6 +18,9 @@ class Cache {
     // private long numSets;
     // -----------------------------------------------------------
 
+    private long log2(long x) {
+        return (long)(Math.log(x) / Math.log(2));
+    }
 
     // Constructor
     public Cache(String[] args) {
@@ -54,7 +57,7 @@ class Cache {
         // Write code here
         // Replace return const below with the computed tag
         // -----------------------------------------------------------
-        return 0xabcd;
+        return addr >> (log2(blockSize) + log2((capacity / blockSize) / associativity));
     }
 
     public long getIndex(long addr) {
@@ -62,7 +65,7 @@ class Cache {
         // Write code here
         // Replace return const below with the computed index
         // -----------------------------------------------------------
-        return 0x10;
+        return (addr >> log2(blockSize)) & ((capacity / blockSize) / associativity - 1);
     }
 
     public long getBoff(long addr) {
@@ -70,7 +73,8 @@ class Cache {
         // Write code here
         // Replace return const below with the computed block offset
         // -----------------------------------------------------------
-        return 0x4;
+        long offset = addr & (blockSize - 1);
+        return offset >> (log2(blockSize) - log2(associativity));
     }
 
 }
