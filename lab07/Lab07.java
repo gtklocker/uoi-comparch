@@ -11,6 +11,9 @@ class Cache {
     private int  blockSize;
     private int  associativity;
     private long capacity;
+    private long sets;
+    private long s;
+    private long b;
 
     // -----------------------------------------------------------
     // ADD ANY OTHER VARIABLES NEEDED FOR CACHE CONFIGURATION HERE
@@ -50,6 +53,10 @@ class Cache {
         // -----------------------------------------------------------
         // Complete code here for other cache parameters derived from the above.
         // -----------------------------------------------------------
+
+        sets = (capacity / blockSize) / associativity;
+        b = log2(blockSize);
+        s = log2(sets);
     }
 
     public long getTag(long addr) {
@@ -57,7 +64,7 @@ class Cache {
         // Write code here
         // Replace return const below with the computed tag
         // -----------------------------------------------------------
-        return addr >> (log2(blockSize) + log2((capacity / blockSize) / associativity));
+        return addr >>> (b + s);
     }
 
     public long getIndex(long addr) {
@@ -65,7 +72,7 @@ class Cache {
         // Write code here
         // Replace return const below with the computed index
         // -----------------------------------------------------------
-        return (addr >> log2(blockSize)) & ((capacity / blockSize) / associativity - 1);
+        return (addr >>> b) & (sets - 1);
     }
 
     public long getBoff(long addr) {
@@ -73,8 +80,7 @@ class Cache {
         // Write code here
         // Replace return const below with the computed block offset
         // -----------------------------------------------------------
-        long offset = addr & (blockSize - 1);
-        return offset >> (log2(blockSize) - log2(associativity));
+        return addr & (blockSize - 1);
     }
 
 }
