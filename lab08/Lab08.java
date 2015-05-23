@@ -112,9 +112,7 @@ class Cache {
         boolean hit = false;
         for (CacheLine cl : S.lines) {
             if (cl.tag == getTag(addr)) {
-                System.out.println("tag matched");
                 if (cl.valid) {
-                    System.out.println("hit");
                     hit = true;
                     hitcl = cl;
                     S.access(hitcl);
@@ -132,7 +130,6 @@ class Cache {
                     // miss
                     ++readMisses;
                     ++numRefills;
-                    System.out.println("miss!");
                     appendToSet(S, addr);
                 }
                 break;
