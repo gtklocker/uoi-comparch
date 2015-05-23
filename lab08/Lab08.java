@@ -5,8 +5,48 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.List;
+import java.util.ArrayList;
 
+class Set {
+    public List<CacheLine> lines;
+    public List<Long> accesses;
+    public Set(long numLines) {
+        this.lines = new ArrayList<CacheLine>();
+        for (int i = 0; i < numLines; ++i) {
+            this.lines.add(new CacheLine());
+        }
+    }
+    public int getLRU() {
+        return 0;
+    }
+}
 
+class CacheLine {
+    private boolean valid;
+    private long tag;
+    private long data;
+
+    public long getTag() {
+        return this.tag;
+    }
+
+    public long getData() {
+        return this.data;
+    }
+
+    public boolean isValid() {
+        return this.valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    public void setTag(long tag) {
+        this.tag = tag;
+    }
+}
 
 class Cache {
     // --------------------------------------------
@@ -38,6 +78,7 @@ class Cache {
 
     // Initialize any data structures for the cache
     //  and counters of events.
+    List<Set> cache;
     private void initCache() {
         // --------------------------------------------------------------------
         // Initialize your cache data structures here
@@ -50,6 +91,12 @@ class Cache {
         writeMisses = 0;
         numRefills = 0;
         numAccesses = 0;
+
+        long lines = capacity / blockSize;
+        cache = new ArrayList<Set>();
+        for (int i = 0; i < sets; ++i) {
+            cache.add(new Set(lines / sets));
+        }
     }
 
     // The main cache method.
@@ -59,8 +106,41 @@ class Cache {
         // -----------------------------------------------------------
         // Write your code here
         // -----------------------------------------------------------
+        ++numAccesses;
+        Set S = cache.get((int)getIndex(addr));
+        switch (op) {
+            case "R":
+                boolean hit = false;
+                for (CacheLine cl : S.lines) {
+                    if (cl.getTag() == getTag(addr)) {
+                        System.out.println("tag matched");
+                        if (cl.isValid()) {
+                            System.out.println("hit");
+                            hit = true;
+                            break;
+                        }
+                        else {
+                            System.out.println("shit");
+                        }
+                    }
+                }
 
+                if (hit) {
+                    ++readHits;
+                    break;
+                }
 
+                // miss
+                ++readMisses;
+                System.out.println("miss!");
+                int lruloc = S.getLRU();
+                S.lines.get(lruloc).setTag(getTag(addr));
+                S.lines.get(lruloc).setValid(true);
+                ++numRefills;
+                break;
+            case "W":
+                break;
+        }
     }
 
     public void report() {
