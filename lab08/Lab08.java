@@ -127,7 +127,6 @@ class Cache {
             case "R":
                 if (hit) {
                     ++readHits;
-                    break;
                 }
                 else {
                     // miss
@@ -144,7 +143,6 @@ class Cache {
                     hitcl.valid = true;
                     // TODO: should we count for more memory reads here?
                     ++numRefills;
-                    break;
                 }
                 else {
                     // miss
