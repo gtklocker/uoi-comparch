@@ -7,18 +7,27 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
 
 class Set {
     public List<CacheLine> lines;
-    public List<Long> accesses;
+    public Queue<Integer> accesses;
     public Set(long numLines) {
+        CacheLine cl = new CacheLine(0);
         this.lines = new ArrayList<CacheLine>();
+        this.accesses = new LinkedList<Integer>();
         for (int i = 0; i < numLines; ++i) {
-            this.lines.add(new CacheLine());
+            cl = new CacheLine(i);
+            this.lines.add(cl);
+            this.access(cl);
         }
     }
+    public void access(CacheLine cl) {
+        this.accesses.add(cl.getIndex());
+    }
     public int getLRU() {
-        return 0;
+        return this.accesses.remove();
     }
 }
 
@@ -26,6 +35,11 @@ class CacheLine {
     private boolean valid;
     private long tag;
     private long data;
+    private int index;
+
+    public int getIndex() {
+        return this.index;
+    }
 
     public long getTag() {
         return this.tag;
@@ -45,6 +59,10 @@ class CacheLine {
 
     public void setTag(long tag) {
         this.tag = tag;
+    }
+
+    public CacheLine(int index) {
+        this.index = index;
     }
 }
 
@@ -108,23 +126,26 @@ class Cache {
         // -----------------------------------------------------------
         ++numAccesses;
         Set S = cache.get((int)getIndex(addr));
+        CacheLine hitcl = new CacheLine(999);
+        boolean hit = false;
+        int lruloc = 0;
+        for (CacheLine cl : S.lines) {
+            if (cl.getTag() == getTag(addr)) {
+                System.out.println("tag matched");
+                if (cl.isValid()) {
+                    System.out.println("hit");
+                    hit = true;
+                    hitcl = cl;
+                    break;
+                }
+            }
+        }
+
+        if (hit) {
+            S.access(hitcl);
+        }
         switch (op) {
             case "R":
-                boolean hit = false;
-                for (CacheLine cl : S.lines) {
-                    if (cl.getTag() == getTag(addr)) {
-                        System.out.println("tag matched");
-                        if (cl.isValid()) {
-                            System.out.println("hit");
-                            hit = true;
-                            break;
-                        }
-                        else {
-                            System.out.println("shit");
-                        }
-                    }
-                }
-
                 if (hit) {
                     ++readHits;
                     break;
@@ -132,13 +153,31 @@ class Cache {
 
                 // miss
                 ++readMisses;
+                ++numRefills;
                 System.out.println("miss!");
-                int lruloc = S.getLRU();
+                lruloc = S.getLRU();
                 S.lines.get(lruloc).setTag(getTag(addr));
                 S.lines.get(lruloc).setValid(true);
-                ++numRefills;
+                S.access(S.lines.get(lruloc));
                 break;
             case "W":
+                if (hit) {
+                    ++writeHits;
+                    hitcl.setTag(getTag(addr));
+                    hitcl.setValid(true);
+                    // TODO: should we count for more memory reads here?
+                    ++numRefills;
+                    break;
+                }
+
+                // miss
+                ++writeMisses;
+                ++numRefills;
+                lruloc = S.getLRU();
+                S.lines.get(lruloc).setTag(getTag(addr));
+                S.lines.get(lruloc).setValid(true);
+                S.access(S.lines.get(lruloc));
+                // TODO: count memory reads based on write-{no-,}allocate
                 break;
         }
     }
