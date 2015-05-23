@@ -23,7 +23,7 @@ class Set {
         }
     }
     public void access(CacheLine cl) {
-        this.accesses.add(cl.getIndex());
+        this.accesses.add(cl.index);
     }
     public int getLRU() {
         return this.accesses.remove();
@@ -31,34 +31,10 @@ class Set {
 }
 
 class CacheLine {
-    private boolean valid;
-    private long tag;
-    private long data;
-    private int index;
-
-    public int getIndex() {
-        return this.index;
-    }
-
-    public long getTag() {
-        return this.tag;
-    }
-
-    public long getData() {
-        return this.data;
-    }
-
-    public boolean isValid() {
-        return this.valid;
-    }
-
-    public void setValid(boolean valid) {
-        this.valid = valid;
-    }
-
-    public void setTag(long tag) {
-        this.tag = tag;
-    }
+    public boolean valid;
+    public long tag;
+    public long data;
+    public int index;
 
     public CacheLine(int index) {
         this.index = index;
@@ -118,8 +94,8 @@ class Cache {
 
     private void appendToSet(Set s, long addr) {
         int lruloc = s.getLRU();
-        s.lines.get(lruloc).setTag(getTag(addr));
-        s.lines.get(lruloc).setValid(true);
+        s.lines.get(lruloc).tag = getTag(addr);
+        s.lines.get(lruloc).valid = true;
         s.access(s.lines.get(lruloc));
     }
 
@@ -135,9 +111,9 @@ class Cache {
         CacheLine hitcl = new CacheLine(999);
         boolean hit = false;
         for (CacheLine cl : S.lines) {
-            if (cl.getTag() == getTag(addr)) {
+            if (cl.tag == getTag(addr)) {
                 System.out.println("tag matched");
-                if (cl.isValid()) {
+                if (cl.valid) {
                     System.out.println("hit");
                     hit = true;
                     hitcl = cl;
@@ -164,8 +140,8 @@ class Cache {
             case "W":
                 if (hit) {
                     ++writeHits;
-                    hitcl.setTag(getTag(addr));
-                    hitcl.setValid(true);
+                    hitcl.tag = getTag(addr);
+                    hitcl.valid = true;
                     // TODO: should we count for more memory reads here?
                     ++numRefills;
                     break;
