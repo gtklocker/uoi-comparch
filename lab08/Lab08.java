@@ -141,15 +141,14 @@ class Cache {
                     ++writeHits;
                     hitcl.tag = getTag(addr);
                     hitcl.valid = true;
-                    // TODO: should we count for more memory reads here?
-                    ++numRefills;
                 }
                 else {
                     // miss
                     ++writeMisses;
-                    ++numRefills;
-                    appendToSet(S, addr);
-                    // TODO: count memory reads based on write-{no-,}allocate
+                    if (writeAllocPolicy.equals("A")) {
+                        ++numRefills;
+                        appendToSet(S, addr);
+                    }
                 }
                 break;
         }
