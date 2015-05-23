@@ -23,6 +23,9 @@ class Cache {
     // ADD ANY OTHER VARIABLES NEEDED FOR CACHE CONFIGURATION HERE
     // - add structures for your cache (tag storage, valid bits, etc)
     // -----------------------------------------------------------
+    private long sets;
+    private long s;
+    private long b;
 
     // -----------------------------------------------------------
     // Event counters (read/write hits, misses, etc)
@@ -70,6 +73,10 @@ class Cache {
         System.out.printf("Miss rate: %f\n", (double) (readMisses + writeMisses)/numAccesses);
     }
 
+    private long log2(long x) {
+        return (long)(Math.log(x) / Math.log(2));
+    }
+
     // Constructor
     public Cache(String[] args) {
 
@@ -105,6 +112,11 @@ class Cache {
         //  ---
         // Don't forget to call InitCache() below!!!!
         // -----------------------------------------------------------
+
+        sets = (capacity / blockSize) / associativity;
+        b = log2(blockSize);
+        s = log2(sets);
+
         initCache();
     }
 
@@ -112,21 +124,21 @@ class Cache {
         // -----------------------------------------------------------
         // Replace with your code from lab07
         // -----------------------------------------------------------
-        return 0xabcd;
+        return addr >>> (b + s);
     }
 
     public long getIndex(long addr) {
         // -----------------------------------------------------------
         // Replace with your code from lab07
         // -----------------------------------------------------------
-        return 0x10;
+        return (addr >>> b) & (sets - 1);
     }
 
     public long getBoff(long addr) {
         // -----------------------------------------------------------
         // Replace with your code from lab07
         // -----------------------------------------------------------
-        return 0x4;
+        return addr & (blockSize - 1);
     }
 
 }
