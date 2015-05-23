@@ -95,7 +95,7 @@ class Cache {
 
     // Initialize any data structures for the cache
     //  and counters of events.
-    List<Set> cache;
+    private List<Set> cache;
     private void initCache() {
         // --------------------------------------------------------------------
         // Initialize your cache data structures here
@@ -116,6 +116,13 @@ class Cache {
         }
     }
 
+    private void appendToSet(Set s, long addr) {
+        int lruloc = s.getLRU();
+        s.lines.get(lruloc).setTag(getTag(addr));
+        s.lines.get(lruloc).setValid(true);
+        s.access(s.lines.get(lruloc));
+    }
+
     // The main cache method.
     // process operation op (R-ead, W-rite) at address addr
     //    update cache structures and update event counters
@@ -127,7 +134,6 @@ class Cache {
         Set S = cache.get((int)getIndex(addr));
         CacheLine hitcl = new CacheLine(999);
         boolean hit = false;
-        int lruloc = 0;
         for (CacheLine cl : S.lines) {
             if (cl.getTag() == getTag(addr)) {
                 System.out.println("tag matched");
@@ -135,29 +141,25 @@ class Cache {
                     System.out.println("hit");
                     hit = true;
                     hitcl = cl;
+                    S.access(hitcl);
                     break;
                 }
             }
         }
 
-        if (hit) {
-            S.access(hitcl);
-        }
         switch (op) {
             case "R":
                 if (hit) {
                     ++readHits;
                     break;
                 }
-
-                // miss
-                ++readMisses;
-                ++numRefills;
-                System.out.println("miss!");
-                lruloc = S.getLRU();
-                S.lines.get(lruloc).setTag(getTag(addr));
-                S.lines.get(lruloc).setValid(true);
-                S.access(S.lines.get(lruloc));
+                else {
+                    // miss
+                    ++readMisses;
+                    ++numRefills;
+                    System.out.println("miss!");
+                    appendToSet(S, addr);
+                }
                 break;
             case "W":
                 if (hit) {
@@ -168,15 +170,13 @@ class Cache {
                     ++numRefills;
                     break;
                 }
-
-                // miss
-                ++writeMisses;
-                ++numRefills;
-                lruloc = S.getLRU();
-                S.lines.get(lruloc).setTag(getTag(addr));
-                S.lines.get(lruloc).setValid(true);
-                S.access(S.lines.get(lruloc));
-                // TODO: count memory reads based on write-{no-,}allocate
+                else {
+                    // miss
+                    ++writeMisses;
+                    ++numRefills;
+                    appendToSet(S, addr);
+                    // TODO: count memory reads based on write-{no-,}allocate
+                }
                 break;
         }
     }
